@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+
+public class Server {
+public static void main (String args[]) 
+{
+	try {
+		Scanner console = new Scanner(System.in);
+	ServerSocket server_sock = new ServerSocket(6013); // 6013
+	while(true) {
+		Socket client = server_sock.accept();
+		System.out.println("someone connected");
+		// we have a connection
+	
+		PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+		BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+		out.println("who is it?");
+		String line;
+		while ((line = in.readLine()) != null) {
+			System.out.println("Client:" + line);
+			String message = console.nextLine();
+			out.println(message);
+		}
+		System.out.println("client hung up");
+			/* close the socket and resume */
+			/* listening for connections */
+			client.close();
+			server_sock.close();
+
+		// close the socket and resume listening for more connections
+	}	//client.close();
+}
+catch (IOException ioe) {
+		System.err.println(ioe);
+}
+
+}
+}
