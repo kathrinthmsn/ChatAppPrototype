@@ -1,0 +1,48 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+
+public class ClientS2 {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		try {
+			Scanner console = new Scanner(System.in);
+			
+			Socket sock = new Socket(InetAddress.getLocalHost(),6013);
+
+			InputStream in = sock.getInputStream();
+			BufferedReader bin = new BufferedReader(new InputStreamReader(in));
+				PrintWriter pout = new PrintWriter(sock.getOutputStream(), true);
+				
+				// Now listen and respond
+				String line;
+				while ((line = bin.readLine()) != null) {
+		            // Output what you read
+					System.out.println("Server:" + line);
+				    String message = console.nextLine();
+					pout.println(message);
+					
+
+		            // Get some more input (from the user) to write to the open socket (server)
+					//String name = console.nextLine();
+					//pout.println("test"+ name);
+				}
+			sock.close();
+		
+		}
+		catch (IOException ioe) {
+				System.err.println(ioe);
+		}
+	}}
+	
+	
