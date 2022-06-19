@@ -1,0 +1,45 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class Server extends Frame {
+	public Server(String title) {
+		super(title);
+		// TODO Auto-generated constructor stub
+	}
+
+	public static void main(String args[]) {
+		
+		try {
+			Scanner console = new Scanner(System.in);
+			ServerSocket server_sock = new ServerSocket(6013); // 6013
+			Socket client = server_sock.accept();
+			System.out.println("someone connected");
+			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			out.println("who is it?");
+			String line ;
+			String message;
+		
+			while (true) {
+				if ((line = in.readLine())!= null) {
+				System.out.println("Client:" + line);}
+				
+								
+				if((message = console.nextLine())!=null) {
+				out.println(message);
+				}
+			}
+
+		} catch (IOException ioe) {
+			System.err.println(ioe);
+		}
+
+	}
+}
